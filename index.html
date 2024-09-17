@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Landing Page with Particle Background</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    /* Particle background styles */
+    #particle-canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1000; /* Behind all other content */
+    }
+  </style>
+</head>
+<body>
+  <!-- Particle Canvas -->
+  <canvas id="particle-canvas"></canvas>
+  
+  <!-- Main Content -->
+  <div class="container">
+    <header class="header">
+      <h1 class="logo">We Connect</h1>
+    </header>
+
+    <section class="hero">
+      <h2 class="hero-text">Welcome to Web <span class="highlight">Innovation</span></h2>
+      <p class="subtext">We bring ideas to life with style.</p>
+      <a href="#about" class="cta-btn" onclick="sendEmail()">Get Started</a>
+    </section>
+
+    <section class="projects">
+        <h3>Our Services</h3>
+        <div class="project-container">
+          <!-- Project Card 1 -->
+          <div class="project-card" onclick="toggleCard(this)">
+            <div class="project-card-header">
+              <h4>CUSTOM WEB PAGES</h4>
+            </div>
+            <div class="project-card-body">
+              <p>we will create/code custom web pages according to the design you give us.</p>
+                <br><a href="https://www.fiverr.com/s/ljlxw7j"><button id="connect-btn">Connect</button></a>
+            </div>
+          </div>
+      
+          <!-- Project Card 2 -->
+          <div class="project-card" onclick="toggleCard(this)">
+            <div class="project-card-header">
+              <h4>COPY WRITTING </h4>
+            </div>
+            <div class="project-card-body">
+              <p>We will <span id="color-copy">Copy write</span> for you.</p>
+              <br><a href="https://www.fiverr.com/algorithmalc993?up_rollout=true"><button id="connect-btn">check Fiverr</button></a>
+            </div>
+          </div>
+      
+          <!-- Project Card 3 -->
+          <div class="project-card" onclick="toggleCard(this)">
+            <div class="project-card-header">
+              <h4>FREELANCING SERVICES</h4>
+            </div>
+            <div class="project-card-body">
+              <p>What we currently provide <ul><li><span id="color-copy">1.copy writting</span></li><li><span id="color-copy">2.web development</span></li><li><span id="color-copy">3.content creation and scripting</span></li><li><span id="color-copy">4.technical paper writting</span></li><li><span id="color-copy">5.personalized learning sessions</span></li></ul></span></p>
+              <br><a href="https://www.fiverr.com/algorithmalc993?up_rollout=true"><button id="connect-btn">check Fiverr</button></a>
+            </div>
+          </div>
+        </div>
+      </section>
+      
+
+    <section class="contact" id="contact">
+        <h3>Contact Us Here</h3>
+        <p class="hero-text-right">algo.work101@gmail.com</p>
+      </section>
+    
+    <section class="freelancing">
+        <h3>Join Our Team</h3>
+        <p class="freelancing-text">
+          We are looking for passionate developers to collaborate with us on several exciting freelancing projects. You'll be compensated based on the amount of work you put in. If you're ready to work on challenging and rewarding tasks, we would love to hear from you!
+           <br> <button class="email-btn" onclick="sendEmail()">Send us an Email</button>
+        </p>
+      </section>
+      <section class="section4">
+        <div class="socials">
+        <a href="https://www.instagram.com/sitesprintee/"><img id="insta-logo" src="./instagramlogo.webp" alt="insta-logo" width="50px"></a>
+        <a href="https://www.fiverr.com/algorithmalc993?up_rollout=true"><img id="fiverr-logo" src="./fiverr logo 2.png" alt="" width="60px"></a>
+        <a href="https://github.com/prathameshholay"><img id="git-logo" src="./git logo.png" alt="" width="50px"></a>
+
+      </div>
+      </section>
+      
+  </div>
+  
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const canvas = document.getElementById('particle-canvas');
+      const ctx = canvas.getContext('2d');
+
+      // Resize the canvas to fill the window
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+
+      // Array to hold the particles
+      let particlesArray = [];
+
+      // Number of particles
+      const numberOfParticles = 7;
+
+      // Particle class
+      class Particle {
+        constructor(x, y, size, speedX, speedY) {
+          this.x = x;
+          this.y = y;
+          this.size = size;
+          this.speedX = speedX;
+          this.speedY = speedY;
+        }
+
+        // Draw particle
+        draw() {
+          ctx.beginPath();
+          ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+          ctx.fillStyle = '#ffffff'; // White particles
+          ctx.fill();
+        }
+
+        // Update particle movement
+        update() {
+          // Bounce off edges
+          if (this.x + this.size > canvas.width || this.x - this.size < 0) {
+            this.speedX = -this.speedX;
+          }
+          if (this.y + this.size > canvas.height || this.y - this.size < 0) {
+            this.speedY = -this.speedY;
+          }
+
+          // Move particle
+          this.x += this.speedX;
+          this.y += this.speedY;
+
+          // Draw particle
+          this.draw();
+        }
+      }
+
+      // Initialize particles
+      function initParticles() {
+        particlesArray = [];
+        for (let i = 0; i < numberOfParticles; i++) {
+          let size = Math.random() * 5 + 1;
+          let x = Math.random() * (canvas.width - size * 2) + size;
+          let y = Math.random() * (canvas.height - size * 2) + size;
+          let speedX = (Math.random() * 10) - 0.5;
+          let speedY = (Math.random() * 1) - 0.5;
+
+          particlesArray.push(new Particle(x, y, size, speedX, speedY));
+        }
+      }
+
+      // Animation loop
+      function animateParticles() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        for (let i = 0; i < particlesArray.length; i++) {
+          particlesArray[i].update();
+        }
+        requestAnimationFrame(animateParticles);
+      }
+
+      // Resize canvas on window resize
+      window.addEventListener('resize', () => {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        initParticles(); // Reinitialize particles on resize
+      });
+
+      // Start animation
+      initParticles();
+      animateParticles();
+    });
+
+    function toggleCard(card) {
+      card.classList.toggle('active');
+    }
+
+    function sendEmail() {
+      const subject = encodeURIComponent("Looking for Work");
+      const body = encodeURIComponent(
+        `Hello, \n\nI hope this email finds you well. I am reaching out because:\n\n- I have skills in: [Your skills here]\n- I am looking for: [What you're looking for here]\n- I would love to work in: [Your preferred work here]\n\nLooking forward to your response.\n\nBest regards,\n[Your Name] \n Or send your custom email by deleting all this.`
+      );
+
+      const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=algo.work101@gmail.com&su=${subject}&body=${body}`;
+      window.open(gmailUrl, '_blank');
+    }
+  </script>
+</body>
+</html>
